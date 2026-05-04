@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 
 const Roles = sequelize.define('Role', {
-  role_id: {
+  id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -12,6 +12,11 @@ const Roles = sequelize.define('Role', {
     allowNull: false,
     unique: true,
   },
+  role_id:{
+    type:DataTypes.INTEGER,
+    unique:true,
+    allowNull:false,
+  }
 }, {
   tableName: 'roles',
   timestamps: false,
