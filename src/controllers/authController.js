@@ -1,6 +1,7 @@
 const User = require("../models/users");
 const tryCatch = require("../utils/tryCatch");
 const AppError = require("../utils/AppError");
+const { sendError } = require("../utils/response");
 
 
 const loginUser = tryCatch(async function (req, res, next) {
@@ -10,7 +11,8 @@ const loginUser = tryCatch(async function (req, res, next) {
   });
 
   if (!userExists) {
-    throw new AppError("Invalid contact No!!", 400);
+    // throw new AppError("Invalid contact No!!", 400);
+    return sendError(res, "contact No not found!!", 200);
   }
 
   const otp = Math.floor(1000 + Math.random() * 9000);

@@ -6,4 +6,4 @@ const loginValidation = [
     validateRequest
 ];
 
-module.exports = {loginValidation}
+module.exports = {loginValidation};

@@ -7,7 +7,7 @@ const Roles = sequelize.define('Role', {
     autoIncrement: true,
     primaryKey: true,
   },
-  name: {
+  role_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
     unique: true,
@@ -18,12 +18,12 @@ const Roles = sequelize.define('Role', {
     allowNull:false,
   }
 }, {
-  tableName: 'roles',
+  tableName: 'roles', 
   timestamps: false,
 });
 
 // Sync model with database (Optional: uncomment to auto-create the table)
-Roles.sync({ alter: true }).then(() => {
+Roles.sync({ alter: false }).then(() => {
   console.log('Roles table created or updated successfully!');
 });
 

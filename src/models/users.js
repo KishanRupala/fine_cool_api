@@ -33,12 +33,12 @@ const User = sequelize.define(
     role_name: {
       type: DataTypes.STRING(50),
       defaultValue: "Technician",
-      allowNull: true,
+      allowNull: false,
     },
     role_id: {
       type: DataTypes.INTEGER,
       defaultValue: 3,
-      allowNull: true,
+      allowNull: false,
     },
     isActive: {
       type: DataTypes.BOOLEAN,
@@ -53,7 +53,7 @@ const User = sequelize.define(
 
 // Sync model with database (Optional: uncomment to auto-create the table)
 // Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-User.sync({ alter: true }).then(() => {
+User.sync({ alter: false }).then(() => {
   console.log("User table created or updated successfully!");
 });
 
