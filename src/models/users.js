@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
+const bcrypt = require("bcryptjs");
 
 const User = sequelize.define(
   "User",
@@ -54,6 +55,23 @@ const User = sequelize.define(
     timestamps: true, // This automatically adds `createdAt` and `updatedAt`
   },
 );
+
+User.beforeCreate(async (user) => {
+  if (user.password) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  } 
+});
+User.beforeUpdate(async (user) => {
+  if (user.changed("password")) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  } 
+});
+
+User.prototype.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 // Sync model with database (Optional: uncomment to auto-create the table)
 // Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL

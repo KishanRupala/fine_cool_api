@@ -20,7 +20,7 @@ const loginUser = tryCatch(async function (req, res, next) {
 });
 
 const otpVerify = tryCatch(async function (req, res, next) {
-  const { contact_no, otp } = req.body;
+  const { contact_no, otp , password} = req.body;
 
   const user = await User.findOne({
     where: { contact_no: req.body.contact_no },
@@ -32,6 +32,13 @@ const otpVerify = tryCatch(async function (req, res, next) {
 
   if (Number(otp) != 1212) {
     throw new AppError("Invalid or expired OTP.", 200);
+  }
+
+  if(password){
+    const isPasswordMatch = await user.matchPassword(password);
+    if(!isPasswordMatch){
+      throw new AppError("Invalid password.", 200);
+    }
   }
   const token = generateToken(user);
   user.token = token;
