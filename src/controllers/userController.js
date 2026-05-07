@@ -1,16 +1,14 @@
 const Roles = require("../models/roles");
 const User = require("../models/users");
-const { sendError, sendSuccess } = require("../utils/response");
+const AppError = require("../utils/AppError");
 const tryCatch = require("../utils/tryCatch");
 
 const addUser = tryCatch(async (req, res) => {
   const { username, email, password, role_id, contact_no } = req.body;
 
-  console.log("email" + email);
-
   const existingContact = await User.findOne({ where: { contact_no } });
   if (existingContact) {
-    return sendError(res, "Contact number already exists");
+    throw new AppError("Contact number already exists", 200);
   }
   let roleObject = null;
   if (role_id) {

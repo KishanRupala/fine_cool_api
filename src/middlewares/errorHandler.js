@@ -1,5 +1,22 @@
 const { validationResult } = require("express-validator");
+const jwt = require('jsonwebtoken');
+
 const errorHandler = (err, req, res, next) => {
+
+   if (err instanceof jwt.TokenExpiredError) {
+    return res.status(401).json({
+      message: 'Session Expired',
+      success: false,
+    })
+  }
+
+  if (err instanceof jwt.JsonWebTokenError) {
+    return res.status(401).json({
+      message: 'Invalid Token',
+      success: false,
+    })
+  }
+
   const statusCode = err.status || 500;
   const message = err.message || "Something went wrong";
   const stack = err.stack || null;

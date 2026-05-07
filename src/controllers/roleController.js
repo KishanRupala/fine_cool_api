@@ -1,7 +1,6 @@
 ﻿const Roles = require("../models/roles");
 const tryCatch = require("../utils/tryCatch");
 const AppError = require("../utils/AppError");
-const { sendError } = require("../utils/response");
 const { Op } = require('sequelize');
 
 const getRoles = tryCatch(async (req, res, next) => {

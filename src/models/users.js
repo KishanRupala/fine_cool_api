@@ -44,6 +44,10 @@ const User = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    token:{
+      type:DataTypes.TEXT,
+      allowNull:true,
+    }
   },
   {
     tableName: "users",
@@ -53,8 +57,8 @@ const User = sequelize.define(
 
 // Sync model with database (Optional: uncomment to auto-create the table)
 // Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-User.sync({ alter: false }).then(() => {
-  console.log("User table created or updated successfully!");
-});
+// User.sync({ alter: false }).then(() => {
+//   console.log("User table created or updated successfully!");
+// });
 
 module.exports = User;
