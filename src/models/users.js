@@ -26,7 +26,11 @@ const User = sequelize.define(
       unique: true,
       trim: true,
       set(value) {
-        this.setDataValue("email", value.toLowerCase());
+        if (value) {
+          this.setDataValue("email", value.toLowerCase());
+        } else {
+          this.setDataValue("email", value);
+        }
       },
       validate: {
         isEmail: true,
@@ -74,6 +78,7 @@ const User = sequelize.define(
     pincode: {
       type: DataTypes.STRING,
       allowNull: false,
+      len: [6, 6],
     },
   },
   {
