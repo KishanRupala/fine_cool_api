@@ -12,20 +12,29 @@ const User = sequelize.define(
     },
     username: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     contact_no: {
       type: DataTypes.STRING,
       allowNull: false,
+      trim: true,
       unique: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: true,
       unique: true,
+      trim: true,
+      set(value) {
+        this.setDataValue("email", value.toLowerCase());
+      },
       validate: {
         isEmail: true,
       },
+    },
+    company_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -40,15 +49,32 @@ const User = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 3,
       allowNull: false,
+      trim: true,
     },
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
-    token:{
-      type:DataTypes.TEXT,
-      allowNull:true,
-    }
+    token: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    area: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    pincode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     tableName: "users",
@@ -60,13 +86,13 @@ User.beforeCreate(async (user) => {
   if (user.password) {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-  } 
+  }
 });
 User.beforeUpdate(async (user) => {
   if (user.changed("password")) {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-  } 
+  }
 });
 
 User.prototype.matchPassword = async function (enteredPassword) {
@@ -75,7 +101,7 @@ User.prototype.matchPassword = async function (enteredPassword) {
 
 // Sync model with database (Optional: uncomment to auto-create the table)
 // Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-// User.sync({ alter: false }).then(() => {
+// User.sync({ alter: true }).then(() => {
 //   console.log("User table created or updated successfully!");
 // });
 
