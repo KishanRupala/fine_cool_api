@@ -34,7 +34,13 @@ const addUser = tryCatch(async (req, res) => {
       throw new AppError("Contact number already exists", 400);
     }
 
-    console.log(hasValue(role_id) + " user data");
+    
+  if (email) {
+    const existingEmail = await User.findOne({ where: { email } });
+    if (existingEmail && existingEmail.id !== Number(id)) {
+      throw new AppError("Email already exists", 400);
+    }
+  }
 
     let roleObject = null;
 
