@@ -34,9 +34,8 @@ const addUser = tryCatch(async (req, res) => {
       throw new AppError("Contact number already exists", 400);
     }
 
+    console.log(hasValue(role_id) + " user data");
 
-    console.log(hasValue(role_id)+ " user data");
-    
     let roleObject = null;
 
     if (role_id) {
@@ -47,10 +46,10 @@ const addUser = tryCatch(async (req, res) => {
       });
 
       if (!hasValue(roleObject)) {
-      throw new AppError("Enter a valid role id", 200);
-    }}
+        throw new AppError("Enter a valid role id", 200);
+      }
+    }
 
-    
     await user.update({
       username: username || "",
       contact_no: contact_no,
@@ -77,6 +76,14 @@ const addUser = tryCatch(async (req, res) => {
   if (existingContact) {
     throw new AppError("Contact number already exists", 200);
   }
+
+  if (email) {
+    const existingEmail = await User.findOne({ where: { email } });
+    if (existingEmail) {
+      throw new AppError("Email already exists", 200);
+    }
+  }
+
   let roleObject = null;
   if (role_id) {
     roleObject = await Roles.findOne({
@@ -87,7 +94,7 @@ const addUser = tryCatch(async (req, res) => {
     username: username || "",
     contact_no,
     email: email || null,
-    password,
+    password: password || "",
     role_name: roleObject?.name || "Technician",
     role_id: roleObject?.role_id || 3,
     area: area || "",

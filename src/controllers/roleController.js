@@ -15,12 +15,12 @@ const getRoles = tryCatch(async (req, res, next) => {
 });
 
 const addRole = tryCatch(async (req, res, next) => {
-  const { role_id, role_name } = req.body;
+  const { role_name } = req.body;
 
-  const existingRole = await Roles.findOne({where: {role_name}});
+  const existingRole = await Roles.findOne({ where: { role_name } });
 
   if (existingRole) {
-    return AppError(res, "Role Name already exists!", 200);
+    throw new AppError(res, "Role Name already exists!", 200);
   }
 
   const newRole = await Roles.create({ role_name });
@@ -28,7 +28,6 @@ const addRole = tryCatch(async (req, res, next) => {
   return res.status(201).json({
     success: true,
     message: "Role added successfully",
-    data: newRole,
   });
 });
 

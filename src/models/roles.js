@@ -7,13 +7,20 @@ const Roles = sequelize.define(
     role_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrementt: true,
+      autoIncrement: true,
     },
     role_name: {
       type: DataTypes.STRING(50),
       allowNull: false,
       unique: true,
-    }
+      set(value) {
+        const formatted = value
+          .toLowerCase()
+          .replace(/\b\w/g, (char) => char.toUpperCase());
+
+        this.setDataValue("role_name", formatted);
+      },
+    },
   },
   {
     tableName: "roles",
