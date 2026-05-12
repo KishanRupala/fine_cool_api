@@ -42,7 +42,7 @@ const acVariation = sequelize.define(
 
 // Sync model with database (Optional: uncomment to auto-create the table)
 // Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-acVariation.sync({ alter: true }).then(() => {
-  console.log("Ac Variation table created or updated successfully!");
-});
+// acVariation.sync({ alter: true }).then(() => {
+//   console.log("Ac Variation table created or updated successfully!");
+// });
 module.exports = acVariation;

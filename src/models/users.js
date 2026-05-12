@@ -106,7 +106,7 @@ User.prototype.matchPassword = async function (enteredPassword) {
 
 // Sync model with database (Optional: uncomment to auto-create the table)
 // Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-// User.sync({ alter: true }).then(() => {
+// User.sync({force: true, alter: true }).then(() => {
 //   console.log("User table created or updated successfully!");
 // });
 

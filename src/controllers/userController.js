@@ -22,7 +22,7 @@ const addUser = tryCatch(async (req, res) => {
   if (hasValue(id)) {
     const user = await User.findByPk(id);
     if (!user) {
-      throw new AppError("User not found", 204);
+      throw new AppError("User not found", 404);
     }
     const existingContact = await User.findOne({
       where: {
@@ -118,6 +118,7 @@ const addUser = tryCatch(async (req, res) => {
 
 const getUsers = tryCatch(async (req, res) => {
   const users = await User.findAll({
+    order: [["id", "DESC"]],
     attributes: {
       exclude: ["token", "password"],
     },
@@ -128,17 +129,5 @@ const getUsers = tryCatch(async (req, res) => {
     data: users,
   });
 });
-
-const commonFindOne = async (model, whereCondition = {}, attributes = null) => {
-  const data = await model.findOne({
-    where: whereCondition,
-
-    ...(attributes && {
-      attributes,
-    }),
-  });
-
-  return data;
-};
 
 module.exports = { addUser, getUsers };

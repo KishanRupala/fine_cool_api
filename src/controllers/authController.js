@@ -6,7 +6,7 @@ const AppError = require("../utils/AppError");
 const loginUser = tryCatch(async function (req, res, next) {
   let userExists = await User.findOne({
     where: { contact_no: req.body.contact_no },
-  });
+  }); 
 
   if (!userExists) {
      throw new AppError('contact No not found!', 200);

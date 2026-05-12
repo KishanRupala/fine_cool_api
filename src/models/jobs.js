@@ -33,11 +33,7 @@ const Jobs = sequelize.define(
     pincode: {
       type: DataTypes.STRING(6),
       allowNull: false,
-      validate: {
-        is: /^[1-9][0-9]{5}$/,
-      },
       trim: true,
-      len: [6, 6],
     },
     ac_type: {
       type: DataTypes.STRING(50),
@@ -56,7 +52,7 @@ const Jobs = sequelize.define(
       allowNull: false,
     },
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING(20),
       allowNull: false,
     },
     price: {
@@ -68,8 +64,9 @@ const Jobs = sequelize.define(
       allowNull: false,
     },
     deleted_at: {
-      type: DataTypes.DATE,
-      allowNull: true,
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      defaultValue: "",
     },
   },
   {
@@ -80,8 +77,8 @@ const Jobs = sequelize.define(
 
 // Sync model with database (Optional: uncomment to auto-create the table)
 // Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-Jobs.sync({ alter: true }).then(() => {
-  console.log("Job table created or updated successfully!");
-});
+// Jobs.sync({ alter: true }).then(() => {
+//   console.log("Job table created or updated successfully!");
+// });
 
 module.exports = Jobs;

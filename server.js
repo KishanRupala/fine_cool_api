@@ -4,7 +4,10 @@ const { sequelize } = require("./src/config/db");
 const PORT = process.env.PORT || 3000;
 const { getLocalIPAddress } = require("./src/utils/get-local-ip.js");
 
-sequelize.sync().then(() => {
+// require("./src/models/jobs");
+// require("./src/models/acVariation");
+
+sequelize.sync({ alter: true }).then(() => {
   console.log("DB Connected");
 
   app.listen(PORT, () => {

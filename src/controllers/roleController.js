@@ -22,7 +22,7 @@ const addRole = tryCatch(async (req, res, next) => {
   if (hasValue(role_id)) {
     const roles = await Roles.findByPk(role_id);
     if (!roles) {
-      throw new AppError("Role not found", 204);
+      throw new AppError("Role not found", 404);
     }
     const existingRole = await Roles.findOne({ where: { role_name } });
 
