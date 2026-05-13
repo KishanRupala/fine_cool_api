@@ -1,16 +1,22 @@
 require("dotenv").config();
 const app = require("./app");
-const { sequelize } = require("./src/config/db");
-const PORT = process.env.PORT || 3000;
+const { connectDB, sequelize } = require("./src/config/db");
 const { getLocalIPAddress } = require("./src/utils/get-local-ip.js");
+require("./src/models");
 
-// require("./src/models/jobs");
-// require("./src/models/acVariation");
+const PORT = process.env.PORT || 3000;
 
-sequelize.sync({ alter: true }).then(() => {
-  console.log("DB Connected");
+const startServer = async () => {
+  await connectDB();
+
+  if (process.env.NODE_ENV === "development") {
+    await sequelize.sync({ alter: false });
+    console.log("DB Synced (Dev Mode)");
+  }
 
   app.listen(PORT, () => {
     console.log(`Server running on http://${getLocalIPAddress()}:${PORT}`);
   });
-});
+};
+
+startServer();

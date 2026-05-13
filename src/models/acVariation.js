@@ -4,9 +4,10 @@ const { sequelize } = require("../config/db");
 const acVariation = sequelize.define(
   "ac_variations",
   {
-    variation_id: {
+    id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
     },
 
     job_id: {
@@ -33,16 +34,17 @@ const acVariation = sequelize.define(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    deleted_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     tableName: "ac_variations",
     timestamps: false,
+    paranoid: true,
+    deletedAt: "deleted_at",
   },
 );
 
-// Sync model with database (Optional: uncomment to auto-create the table)
-// Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-// acVariation.sync({ alter: true }).then(() => {
-//   console.log("Ac Variation table created or updated successfully!");
-// });
 module.exports = acVariation;

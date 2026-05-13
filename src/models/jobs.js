@@ -63,22 +63,16 @@ const Jobs = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    deleted_at: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-      defaultValue: "",
+     deleted_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {
     tableName: "Jobs",
     timestamps: true,
+    paranoid: true,
+    deletedAt: "deleted_at",
   },
 );
-
-// Sync model with database (Optional: uncomment to auto-create the table)
-// Removed { alter: true } to prevent the "Too many keys specified" bug in MySQL
-// Jobs.sync({ alter: true }).then(() => {
-//   console.log("Job table created or updated successfully!");
-// });
-
 module.exports = Jobs;

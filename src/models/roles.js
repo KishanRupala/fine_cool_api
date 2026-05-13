@@ -28,9 +28,5 @@ const Roles = sequelize.define(
   },
 );
 
-// Sync model with database (Optional: uncomment to auto-create the table)
-// Roles.sync({ force: true,alter: true }).then(() => {
-//   console.log("Roles table created or updated successfully!");
-// });
 
 module.exports = Roles;
