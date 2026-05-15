@@ -29,11 +29,6 @@ const acVariation = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
     deleted_at: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -41,7 +36,7 @@ const acVariation = sequelize.define(
   },
   {
     tableName: "ac_variations",
-    timestamps: false,
+     timestamps: true,
     paranoid: true,
     deletedAt: "deleted_at",
   },

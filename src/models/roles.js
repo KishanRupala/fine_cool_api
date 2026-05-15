@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 
 const Roles = sequelize.define(
-  "Role",
+  "roles",
   {
     role_id: {
       type: DataTypes.INTEGER,

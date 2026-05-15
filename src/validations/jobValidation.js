@@ -11,4 +11,10 @@ const deleteValidation = [
   validateRequest,
 ];
 
-module.exports = { addValidation, deleteValidation };
+const jobTransferValidation = [
+  body("job_id").notEmpty().withMessage("Please enter the job id"),
+  body("technician_id").notEmpty().withMessage("Please enter the technician id"),
+  validateRequest,
+];
+
+module.exports = { addValidation, deleteValidation, jobTransferValidation };

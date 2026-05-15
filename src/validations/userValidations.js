@@ -9,4 +9,10 @@ const addUserValidation = [
   validateRequest,
 ];
 
-module.exports = { addUserValidation };
+const deleteUserValidation = [
+  body("id").notEmpty()
+    .withMessage("Please provide a user ID"),
+  validateRequest,
+];
+
+module.exports = { addUserValidation, deleteUserValidation };

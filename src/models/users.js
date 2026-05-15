@@ -3,7 +3,7 @@ const { sequelize } = require("../config/db");
 const bcrypt = require("bcryptjs");
 
 const User = sequelize.define(
-  "User",
+  "users",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,12 +18,11 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       trim: true,
-      unique: true,
+      // unique
     },
     email: {
       type: DataTypes.STRING,
       allowNull: true,
-      unique: true,
       trim: true,
       set(value) {
         if (value) {
@@ -80,9 +79,15 @@ const User = sequelize.define(
       allowNull: false,
       len: [6, 6],
     },
+     deleted_at: {
+          type: DataTypes.DATE,
+          allowNull: true,
+        },
   },
   {
     tableName: "users",
+     paranoid: true,
+    deletedAt: "deleted_at",
     timestamps: true, // This automatically adds `createdAt` and `updatedAt`
   },
 );

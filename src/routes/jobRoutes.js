@@ -4,6 +4,7 @@ const jobController = require("../controllers/jobController");
 const {
   addValidation,
   deleteValidation,
+  jobTransferValidation,
 } = require("../validations/jobValidation");
 const router = express.Router();
 
@@ -14,6 +15,12 @@ router.post(
   AuthMiddleware,
   deleteValidation,
   jobController.deletejob,
+);
+router.post(
+  "/jobTransfer",
+  AuthMiddleware,
+  jobTransferValidation,
+  jobController.jobTransfer,
 );
 
 module.exports = router;

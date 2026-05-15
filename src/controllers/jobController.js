@@ -1,5 +1,3 @@
-// const acVariation = require("../models/acVariation");
-// const Jobs = require("../models/jobs");
 const AppError = require("../utils/AppError");
 const DateUtil = require("../utils/DateUtil");
 const hasValue = require("../utils/hasValue");
@@ -11,16 +9,22 @@ const { where } = require("sequelize");
 
 const Jobs = db.jobs;
 const acVariation = db.ac_variations;
+const User = db.users;
 
 const listJobs = tryCatch(async function (req, res, next) {
   const pagination = Pagination.build(req.body);
 
   const jobs = await Jobs.findAndCountAll({
+    distinct: true,
+    col: "id",
     include: [
       {
         model: acVariation,
         as: "ac_variations",
         required: false,
+        attributes: {
+          exclude: ["deleted_at"],
+        },
       },
     ],
     order: [["id", "DESC"]],
@@ -169,12 +173,11 @@ const deletejob = tryCatch(async function (req, res, next) {
     throw new AppError("Invalid Job Id", 404);
   }
 
-   await acVariation.destroy({
-    where: { job_id: id }
+  await acVariation.destroy({
+    where: { job_id: id },
   });
-  
-  await job.destroy();
 
+  await job.destroy();
 
   return res.status(200).json({
     success: true,
@@ -182,4 +185,34 @@ const deletejob = tryCatch(async function (req, res, next) {
   });
 });
 
-module.exports = { addJob, listJobs, deletejob };
+const jobTransfer = tryCatch(async function (req, res, next) {
+  const { job_id, technician_id } = req.body;
+
+  const job = await Jobs.findByPk(job_id);
+
+  if (!job) {
+    throw new AppError("Invalid Job Id", 404);
+  }
+
+  const technician = await User.findOne({
+    where: { id: technician_id, role_name: "Technician" },
+  });
+
+  if (!technician) {
+    throw new AppError("Invalid Technician Id", 404);
+  } else if (!technician.isActive) {
+    throw new AppError("Technician is not active", 400);
+  }
+
+  await job.update({
+    assigned_to: technician_id || 0,
+    technician_name: technician.username || "",
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Job transferred successfully",
+  });
+});
+
+module.exports = { addJob, listJobs, deletejob, jobTransfer };

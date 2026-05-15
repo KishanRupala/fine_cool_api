@@ -51,6 +51,16 @@ const Jobs = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    assigned_to: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    technician_name:{
+      type: DataTypes.STRING(200),
+      allowNull: false,
+      defaultValue: "",
+    },
     date: {
       type: DataTypes.STRING(20),
       allowNull: false,
@@ -63,7 +73,7 @@ const Jobs = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-     deleted_at: {
+    deleted_at: {
       type: DataTypes.DATE,
       allowNull: true,
     },
